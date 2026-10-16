@@ -1471,7 +1471,7 @@ const certificatesDatabase = [
   },
     {
     id: "161616",
-    name: "davina",
+    name: "davina halo",
     course: "risk management",
     date: "16 oktober 2026",
     status: "Valid / Terverifikasi",
