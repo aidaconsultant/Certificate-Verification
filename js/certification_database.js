@@ -1469,11 +1469,11 @@ const certificatesDatabase = [
     date: "12122004",
     status: "Valid / Terverifikasi",
   },
-  {
-    id: "181818",
-    name: "suhadi",
-    course: "suhadi aawkowk",
-    date: "123456",
+    {
+    id: "161616",
+    name: "davina",
+    course: "risk management",
+    date: "16 oktober 2026",
     status: "Valid / Terverifikasi",
-  },
+  }
 ];
