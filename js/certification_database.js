@@ -1,5 +1,40 @@
 const certificatesDatabase = [
   {
+        id: "20245011202517015",
+    name: "Nia",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–15 Oktober 2026",
+    status: "Valid / Terverifikasi",
+  },
+  { 
+        id: "20245011202517015",
+    name: "Zayn",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–03 Oktober 2026",
+    status: "Valid / Terverifikasi",
+  },
+  { 
+    id: "20245011202517015",
+    name: "Kai",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–03 Oktober 2026",
+    status: "Valid / Terverifikasi",
+  },
+  { 
+    id: "20245011202517015",
+    name: "jay",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–03 Desember 2025",
+    status: "Valid / Terverifikasi",
+  },
+  {
+    id: "20245011202517015",
+    name: "Dream",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–03 Desember 2025",
+    status: "Valid / Terverifikasi",
+  },
+  {
     id: "20245011202517015",
     name: "Budiansyah Allahuakbar",
     course: "Training: International Certified Anti Bribery Management System",
