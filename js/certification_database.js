@@ -1461,19 +1461,5 @@ const certificatesDatabase = [
     course: "Training: International Certified Anti Bribery Management System",
     date: "02–03 Desember 2025",
     status: "Valid / Terverifikasi",
-  },
-  {
-    id: "151515",
-    name: "halo awkoaowk",
-    course: "materi awkoak",
-    date: "12122004",
-    status: "Valid / Terverifikasi",
-  },
-    {
-    id: "161616",
-    name: "davina halo",
-    course: "risk management",
-    date: "16 oktober 2026",
-    status: "Valid / Terverifikasi",
   }
 ];
