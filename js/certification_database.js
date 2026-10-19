@@ -1,6 +1,13 @@
 const certificatesDatabase = [
   {
     id: "20245011202517015",
+    name: "Mike Shinoda",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–20 Oktober 2026",
+    status: "Valid / Terverifikasi",
+  },
+  { 
+    id: "20245011202517015",
     name: "Budiansyah Allahuakbar",
     course: "Training: International Certified Anti Bribery Management System",
     date: "02–15 Oktober 2026",
