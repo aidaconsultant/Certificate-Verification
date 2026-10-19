@@ -7,6 +7,13 @@ const certificatesDatabase = [
     status: "Valid / Terverifikasi",
   },
   {
+        id: "20245011202517015",
+    name: "Kai Cenatt",
+    course: "Training: International Certified Anti Bribery Management System",
+    date: "02–03 Desember 2025",
+    status: "Valid / Terverifikasi",
+  },
+  {
     id: "074/AIDA/CTF/IV/2025",
     name: "Agus Riyanto",
     course: "Competency Enhancement Training for Facilitators and Trainer",
