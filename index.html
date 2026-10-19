@@ -6,21 +6,21 @@
     <title>Certificate Verification</title>
   </head>
   <body>
-    <!-- Mengambilan Data Eksternal -->
-    <script src="js/certification_database.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/aidaconsultant/Certificate-Verification@main/js/certification_database.js?v=1.5"></script>
+    <!-- Pengambilan Data Eksternal -->
+    <script src="https://cdn.jsdelivr.net/gh/aidaconsultant/Certificate-Verification@main/js/certification_database.js?v=1.6"></script>
+
     <!-- Widget Container -->
     <div id="cert-checker-widget">
       <div class="cert-header">
         <h3>Verifikasi Sertifikat</h3>
-        <p>Masukkan ID Sertifikat atau Nama Lengkap untuk mengecek keaslian.</p>
+        <p>Masukkan ID Sertifikat atau Nama untuk mengecek keaslian.</p>
       </div>
 
       <div class="cert-search-box">
         <input
           type="text"
           id="cert-input"
-          placeholder="Contoh: CERT-2026-001 atau Nama Lengkap"
+          placeholder="Contoh: CERT-2026-001 atau Nama"
           onkeyup="checkEnter(event)"
         />
         <button onclick="searchCertificate()">Cari</button>
@@ -39,7 +39,7 @@
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
           Arial, sans-serif;
-        width: 70%;
+        width: 100%;
         max-width: 100%;
         margin: 0 auto;
         padding: 24px;
@@ -98,6 +98,12 @@
       }
 
       /* Status Cards */
+      .cert-result-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
       .cert-card {
         padding: clamp(16px, 2vw, 24px);
         border-radius: 8px;
@@ -153,7 +159,7 @@
       }
     </style>
 
-    <!-- Logika & Database Sertifikat (JavaScript) -->
+    <!-- Logika Pencarian Sertifikat (JavaScript) -->
     <script>
       function searchCertificate() {
         const rawInput = document.getElementById("cert-input").value.trim();
@@ -163,65 +169,69 @@
         if (!rawInput) {
           resultContainer.style.display = "block";
           resultContainer.innerHTML = `
-        <div class="cert-card error">
-          Mohon masukkan ID Sertifikat atau Nama Lengkap terlebih dahulu.
-        </div>`;
+            <div class="cert-card error">
+              Mohon masukkan ID Sertifikat atau Nama terlebih dahulu.
+            </div>`;
           return;
         }
 
-        // Cek apakah input berupa kata tunggal (bukan ID dan bukan nama lengkap)
-        const words = rawInput.split(/\s+/);
-        const isSingleWord = words.length === 1;
+        // Pastikan variabel database tersedia
+        if (typeof certificatesDatabase === "undefined" || !Array.isArray(certificatesDatabase)) {
+          resultContainer.style.display = "block";
+          resultContainer.innerHTML = `
+            <div class="cert-card error">
+              Gagal memuat database sertifikat. Pastikan file JavaScript terhubung dengan benar.
+            </div>`;
+          return;
+        }
 
-        // Pencocokan:
-        // 1. Matched ID jika persis sama
-        // 2. Matched Nama JIKA input terdiri dari minimal 2 kata DAN cocok persis dengan nama di database
-        const match = certificatesDatabase.find((cert) => {
+        // Pencarian:
+        // 1. Cocokkan ID persis sama OR
+        // 2. Nama mengandung kata yang diinputkan pengguna
+        const matches = certificatesDatabase.filter((cert) => {
           const isIdMatch = cert.id && cert.id.toUpperCase() === inputVal;
-          const isFullNameMatch =
-            cert.name && !isSingleWord && cert.name.toUpperCase() === inputVal;
-          return isIdMatch || isFullNameMatch;
+          const isNameMatch = cert.name && cert.name.toUpperCase().includes(inputVal);
+          return isIdMatch || isNameMatch;
         });
 
         resultContainer.style.display = "block";
 
-        if (match) {
-          resultContainer.innerHTML = `
-        <div class="cert-card success">
-          <span class="cert-badge">✓ SERTIFIKAT VALID</span>
-          <div style="margin-top: 8px;">
-            <div class="cert-detail-row">
-              <span class="cert-label">No. Sertifikat:</span>
-              <span class="cert-value">${match.id}</span>
-            </div>
-            <div class="cert-detail-row">
-              <span class="cert-label">Nama Penerima:</span>
-              <span class="cert-value">${match.name}</span>
-            </div>
-            <div class="cert-detail-row">
-              <span class="cert-label">Program/Pelatihan:</span>
-              <span class="cert-value">${match.course}</span>
-            </div>
-            <div class="cert-detail-row">
-              <span class="cert-label">Tanggal Terbit:</span>
-              <span class="cert-value">${match.date}</span>
-            </div>
-          </div>
-        </div>
-      `;
+        if (matches.length > 0) {
+          let htmlResults = "";
+
+          matches.forEach((match) => {
+            htmlResults += `
+              <div class="cert-card success">
+                <span class="cert-badge">✓ SERTIFIKAT VALID</span>
+                <div style="margin-top: 8px;">
+                  <div class="cert-detail-row">
+                    <span class="cert-label">No. Sertifikat:</span>
+                    <span class="cert-value">${match.id}</span>
+                  </div>
+                  <div class="cert-detail-row">
+                    <span class="cert-label">Nama Penerima:</span>
+                    <span class="cert-value">${match.name}</span>
+                  </div>
+                  <div class="cert-detail-row">
+                    <span class="cert-label">Program/Pelatihan:</span>
+                    <span class="cert-value">${match.course}</span>
+                  </div>
+                  <div class="cert-detail-row">
+                    <span class="cert-label">Tanggal Terbit:</span>
+                    <span class="cert-value">${match.date}</span>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+
+          resultContainer.innerHTML = htmlResults;
         } else {
-          let errorMessage = `✕ Data <strong>"${rawInput}"</strong> tidak ditemukan. Pastikan memasukkan ID atau Nama Lengkap dengan benar.`;
-
-          // Beri peringatan khusus jika pengguna hanya memasukkan 1 kata (nama depan/panggilan saja)
-          if (isSingleWord && !rawInput.toUpperCase().startsWith("CERT")) {
-            errorMessage = `✕ Mohon ketik <strong>Nama Lengkap</strong> (minimal 2 kata), bukan hanya nama panggilan.`;
-          }
-
           resultContainer.innerHTML = `
-        <div class="cert-card error">
-          ${errorMessage}
-        </div>
-      `;
+            <div class="cert-card error">
+              ✕ Data <strong>"${rawInput}"</strong> tidak ditemukan. Pastikan memasukkan ID atau Nama dengan benar.
+            </div>
+          `;
         }
       }
 
